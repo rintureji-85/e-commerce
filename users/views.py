@@ -7,6 +7,8 @@ from rest_framework import status
 from .serializers import RegisterSerializer, LoginSerializer
 from rest_framework_simplejwt.tokens import RefreshToken
 
+def hi(request):
+    return "hello"
 
 # Generate JWT Token
 def get_tokens_for_user(user):
@@ -14,7 +16,6 @@ def get_tokens_for_user(user):
     return {
         'access': str(refresh.access_token),
     }
-
 
 # Register API
 class RegisterView(APIView):
@@ -57,3 +58,12 @@ class LoginView(APIView):
 
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
+#test api
+from rest_framework.permissions import IsAuthenticated
+from .permissions import IsAdmin,IsMerchant,Iscustomer
+
+class TestProtectedView(APIView):
+    permission_classes=[AllowAny]
+
+    def get(self,request):
+        return Response({"message":"you are authenticated" })
